@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Deploy EC2 instance on AWS
+    ec2:
+      key_name: "{{key_name}}"
+      instance_type: "{{instance_type}}"
+      image: "{{ami_image}}"
+      wait: yes
+      group: mongodb-cluster
+      count: 1
+      vpc_subnet_id: "{{vpc_subnet_id}}"
+      assign_public_ip: no
+      region: "{{region}}"
+      aws_access_key: ''
+      aws_secret_key: ''
+      

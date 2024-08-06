@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+
+  vars_files:
+    - system_config.yml
+  
+  tasks:
+    - ec2_instance_facts:
+        region: "{{region}}"
+        filters:
+          "tag:Type": riak
+        aws_access_key: "{{aws_access_key}}"
+        aws_secret_key: "{{aws_secret_key}}"
+      register: instances
+
+    - copy:
+        content: "{{ instances.instances[0]['network_interfaces'][0]['private_ip_address'] }}"
+        dest: "{{dest}}"
+
+    - debug:
+        var: instances.instances[0]['network_interfaces'][0]['private_ip_address']

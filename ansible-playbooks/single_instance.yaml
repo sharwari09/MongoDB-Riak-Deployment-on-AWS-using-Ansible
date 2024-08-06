@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  gather_facts: False
+  connection: local
+
+  vars_files:
+    - system_config.yml
+
+  tasks:
+  - name: Deploy temp EC2 instance on AWS
+    ec2_instance:
+      name: "temp-node"
+      key_name: "{{key_name}}"
+      instance_type: "{{instance_type}}"
+      image_id: "{{image_id}}"
+      security_group: "{{security_group}}"
+      vpc_subnet_id: "{{vpc_subnet_id_1}}"
+      network: 
+        assign_public_ip: no
+      region: "{{region}}"
+      aws_access_key: "{{aws_access_key}}" 
+      aws_secret_key: "{{aws_secret_key}}"
+    register: ec2_1
+    tags:
+      - ec2
+      - primary 
+      - mongo
+      - riak
+
+  - debug: 
+      var: ec2_1

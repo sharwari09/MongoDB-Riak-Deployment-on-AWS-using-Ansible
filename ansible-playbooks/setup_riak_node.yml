@@ -1,0 +1,27 @@
+---
+- hosts: hosts
+  gather_facts: False
+  become: yes
+  become_method: enable
+  become_user: root
+
+  tasks:
+    - name: Start the Riak Service
+      command: sudo riak start
+      tags: p1
+   
+    - name: Check Ping on Riak Node
+      command: sudo riak ping
+      register: ping
+      tags: p2
+
+    - debug: 
+        var: ping
+
+    - name: Check Riak admin status on Riak Node
+      command: sudo riak-admin status
+      register: admin
+      tags: p3
+
+    - debug: 
+        var: admin

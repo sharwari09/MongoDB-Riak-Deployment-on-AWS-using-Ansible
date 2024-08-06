@@ -1,0 +1,31 @@
+---
+- hosts: "{{ host }}"
+  gather_facts: False
+  become: yes
+  become_method: enable
+  become_user: root
+
+  tasks:
+    - name: Show cluster plan
+      command: sudo riak-admin cluster plan
+      register: plan
+      tags: plan
+    
+    - debug:
+        var: plan
+   
+    - name: Check cluster plan status
+      command: sudo riak-admin cluster status
+      register: status
+      tags: status
+
+    - debug:
+        var: status
+
+    - name: Commit cluster plan
+      command: sudo riak-admin cluster commit
+      register: commit
+      tags: commit
+
+    - debug:
+        var: commit

@@ -1,0 +1,12 @@
+--- 
+- hosts: localhost
+  connection: local
+
+  tasks:
+  - ping:
+
+- hosts: localhost
+  connection: local
+
+  tasks:
+  - ping:
